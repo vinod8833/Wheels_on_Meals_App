@@ -1,0 +1,534 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    {% comment %} <link rel="stylesheet" href="styles.css"> {% endcomment %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        body, h1, h2, h3, h4, h5, h6, p, ul, li {
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #e0eafc, #cfdef3);
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background-color: #1c1c1c;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .sidebar .logo h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #ff5722;
+            font-family: 'Roboto', sans-serif;
+            text-transform: uppercase;
+            text-align: center;
+        }
+        
+        .sidebar nav ul {
+            list-style-type: none;
+            padding: 0;
+            flex-direction: column;
+        }
+        
+        .sidebar nav ul li {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        
+        .sidebar nav ul li a {
+            color: orangered;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+            width: 100%;
+        }
+        
+        .sidebar nav ul li a i {
+            margin-right: 20px;
+        }
+        
+        .sidebar nav ul li a:hover,
+        .sidebar nav ul li a.active {
+            background-color: #333;
+            transform: scale(1.02);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .accordion-content {
+            display: none;
+            flex-direction: column;
+            padding-left: 20px;
+        }
+        
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-left: 21px; 
+            overflow-y: auto;
+        }
+        
+        .main-content header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .main-content header img {
+            border-radius: 50%;
+            height: 40px;
+            margin-right: 20px;
+        }
+        
+        .content {
+            margin-top: 20px;
+        }
+        
+        .accordion-toggle::after {
+            content: '\f107'; /* Font Awesome down arrow */
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            float: right;
+        }
+        
+        .accordion-toggle.active::after {
+            content: '\f106'; /* Font Awesome up arrow */
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+        
+        .header-right img {
+            border-radius: 50%;
+            height: 40px;
+            width: 40px;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+        
+        .header-right span {
+            font-size: 16px;
+            color: #333;
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+
+        .profile-picture {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-picture img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border: 5px solid #ff5722;
+        }
+
+        .profile-details {
+            text-align: center;
+        }
+
+        .profile-details h2 {
+            margin-bottom: 10px;
+        }
+
+        .profile-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="password"],
+        .form-group input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .form-group button:hover {
+            background-color: #45a049;
+        }
+
+        .add-item-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .address-details-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .order-status-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .order-status-container table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .order-status-container table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        .order-status-container th, td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        .order-status-container th {
+            background-color: #f2f2f2;
+        }
+
+        .hotel-details-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .user-details-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .user-details-container table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .user-details-container table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        .user-details-container th, td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        .user-details-container th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="logo">
+                <h1>HOTEL DASHBOARD</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="tab-link active" data-tab="profile"><i class="fas fa-user"></i>Profile</a></li>
+                    <li><a href="#" class="tab-link" data-tab="add-items"><i class="fas fa-plus"></i>Add Items</a></li>
+                    <li><a href="#" class="tab-link" data-tab="user-order-status"><i class="fa fa-shopping-cart"></i>User Order Status</a></li>
+                    <li><a href="#" class="tab-link" data-tab="hotel-details"><i class="fas fa-hotel"></i>Hotel Details</a></li>
+                    <li><a href="#" class="tab-link" data-tab="user-details"><i class="fas fa-users"></i>User Details</a></li>
+                    <li><a href="#" class="tab-link" data-tab="logout"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="main-content">
+            <div id="profile" class="tab-content active">
+                <div class="profile-picture">
+                    <h1>Profile Management</h1><br>
+                    <img src="./images/images.jpeg" alt="Profile Picture">
+                </div>
+                <div class="profile-details">
+                    <h2>Vinod Kumar</h2>
+                    <p>Email: vinod.kumar@example.com</p>
+                    <p>Phone: +91 1234567890</p>
+                    <p>Position: Hotel Owner</p>
+                    <p>About: Passionate about hospitality and ensuring guests have the best experience possible.</p>
+                    <p>Experience: 10+ years in the hotel industry, specializing in luxury accommodations.</p>
+                    <p>Achievements: Awarded Best Hotelier of the Year in 2023.</p>
+
+                    <div class="profile-container">
+                        <form action="/update-profile" method="POST" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="profile-picture">Profile Picture:</label>
+                                <input type="file" id="profile-picture" name="profile-picture" accept="image/*">                            
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Name:</label>
+                                <input type="text" id="name" name="name" value="Vinod Kumar" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" id="email" name="email" value="vinod.kumar@example.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone:</label>
+                                <input type="text" id="phone" name="phone" value="+91 1234567890" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="about">About:</label>
+                                <input type="text" id="about" name="about" value="Passionate about hospitality and ensuring guests have the best experience possible." required>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit">Update Profile</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="add-items" class="tab-content">
+                <h2>Add New Item</h2>
+                <div class="add-item-container">
+                    <form action="/add-item" method="POST">
+                        <div class="form-group">
+                            <label for="item-name">Item Name:</label>
+                            <input type="text" id="item-name" name="item-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="item-discount">Discount (%):</label>
+                            <input type="text" id="item-discount" name="item-discount">
+                        </div>
+                        <div class="form-group">
+                            <label for="item-image">Image:</label>
+                            <input type="file" id="item-image" name="item-image" accept="image/*" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="item-description">Description:</label>
+                            <input type="text" id="item-description" name="item-description" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="item-price">Price:</label>
+                            <input type="text" id="item-price" name="item-price" required>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit">Add Item</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="user-order-status" class="tab-content">
+                <h2>User Order Status</h2>
+                <div class="order-status-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>User Name</th>
+                                <th>Item Name</th>
+                                <th>Quantity</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#001</td>
+                                <td>John Doe</td>
+                                <td>Pizza</td>
+                                <td>2</td>
+                                <td>Delivered</td>
+                            </tr>
+                            <tr>
+                                <td>#002</td>
+                                <td>Jane Smith</td>
+                                <td>Burger</td>
+                                <td>1</td>
+                                <td>In Progress</td>
+                            </tr>
+                            <tr>
+                                <td>#003</td>
+                                <td>Bob Johnson</td>
+                                <td>Pasta</td>
+                                <td>3</td>
+                                <td>Pending</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="hotel-details" class="tab-content">
+                <h2>Hotel Details</h2>
+                <div class="hotel-details-container">
+                    <form action="/update-hotel-details" method="POST">
+                        <div class="form-group">
+                            <label for="hotel-name">Hotel Name:</label>
+                            <input type="text" id="hotel-name" name="hotel-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="hotel-description">Description:</label>
+                            <input type="text" id="hotel-description" name="hotel-description" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="hotel-amenities">Amenities:</label>
+                            <input type="text" id="hotel-amenities" name="hotel-amenities" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="hotel-rating">Rating:</label>
+                            <input type="text" id="hotel-rating" name="hotel-rating" required>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit">Update Hotel Details</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="user-details" class="tab-content">
+                <h2>User Details</h2>
+                <div class="user-details-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Address</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#101</td>
+                                <td>John Doe</td>
+                                <td>john.doe@example.com</td>
+                                <td>+91 9876543210</td>
+                                <td>123 Main St, Cityville</td>
+                            </tr>
+                            <tr>
+                                <td>#102</td>
+                                <td>Jane Smith</td>
+                                <td>jane.smith@example.com</td>
+                                <td>+91 8765432109</td>
+                                <td>456 Market St, Townsville</td>
+                            </tr>
+                            <tr>
+                                <td>#103</td>
+                                <td>Bob Johnson</td>
+                                <td>bob.johnson@example.com</td>
+                                <td>+91 7654321098</td>
+                                <td>789 Park Ave, Villagetown</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="logout" class="tab-content">
+                <h2>Logout</h2>
+                    <p>You have been logged out successfully.</p>
+                    <p><a href="hotel.html">Click here</a> to log in again.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const tabLinks = document.querySelectorAll('.tab-link');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const tab = link.getAttribute('data-tab');
+
+                tabLinks.forEach(link => {
+                    link.classList.remove('active');
+                });
+
+                link.classList.add('active');
+
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                });
+
+                document.getElementById(tab).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

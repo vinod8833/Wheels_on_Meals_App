@@ -1,0 +1,352 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    {% comment %} <link rel="stylesheet" href="styles.css"> {% endcomment %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        body, h1, h2, h3, h4, h5, h6, p, ul, li {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #e0eafc, #cfdef3);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #1c1c1c;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar .logo h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #ff5722;
+            font-family: 'Roboto', sans-serif;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .sidebar nav ul {
+            list-style-type: none;
+            padding: 0;
+            flex-direction: column;
+        }
+
+        .sidebar nav ul li {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .sidebar nav ul li a {
+            color: orangered;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+            width: 100%;
+        }
+
+        .sidebar nav ul li a i {
+            margin-right: 20px;
+        }
+
+        .sidebar nav ul li a:hover,
+        .sidebar nav ul li a.active {
+            background-color: #333;
+            transform: scale(1.02);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .accordion-content {
+            display: none;
+            flex-direction: column;
+            padding-left: 20px;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-left: 21px;
+            overflow-y: auto;
+        }
+
+        .main-content header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-content header img {
+            border-radius: 50%;
+            height: 40px;
+            margin-right: 20px;
+        }
+
+        .content {
+            margin-top: 20px;
+        }
+
+        .accordion-toggle::after {
+            content: '\f107'; /* Font Awesome down arrow */
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            float: right;
+        }
+
+        .accordion-toggle.active::after {
+            content: '\f106'; /* Font Awesome up arrow */
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .header-right img {
+            border-radius: 50%;
+            height: 40px;
+            width: 40px;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+
+        .header-right span {
+            font-size: 16px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .profile-picture {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-picture img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border: 5px solid #ff5722;
+        }
+
+        .profile-details {
+            text-align: center;
+        }
+
+        .profile-details h2 {
+            margin-bottom: 10px;
+        }
+
+        .profile-container,
+        .add-item-container,
+        .address-details-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="password"],
+        .form-group input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .form-group button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="logo">
+                <h1>ADMIN DASHBOARD</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="tab-link" data-tab="profile"><i class="fas fa-user"></i>Profile</a></li>
+                    <li><a href="#" class="tab-link" data-tab="add-items"><i class="fas fa-plus"></i>Add Items</a></li>
+                    <li><a href="#" class="tab-link" data-tab="hotel-details"><i class="fas fa-hotel"></i>Hotel Details</a></li>
+                    <li><a href="#" class="tab-link" data-tab="user-details"><i class="fas fa-users"></i>User Details</a></li>
+                    <li><a href="#" class="tab-link" data-tab="logout"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="main-content">
+            <div id="profile" class="tab-content active">
+                <div class="profile-picture">
+                    <img src="./images/dp.jpg" alt="Profile Picture">
+                </div>
+                <div class="profile-details">
+                    <h1>Profile Management</h1>
+                    <h2>Vinod Kumar</h2>
+                    <p>Email: vinod.kumar@example.com</p>
+                    <p>Phone: +91 1234567890</p>
+                    <p>Role: Admin</p>
+                    <p>Joined: January 1, 2024</p>
+                    <div class="profile-container">
+                        <form action="/update-profile" method="POST" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="profile-picture">Profile Picture:</label>
+                                <input type="file" id="profile-picture" name="profile-picture" accept="image/*">
+                            </div>
+                            <div class="form-group">
+                                <button type="submit">Update Profile</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="add-items" class="tab-content">
+                <h2>Add New Item</h2>
+                <div class="add-item-container">
+                    <form action="/add-item" method="POST">
+                        <div class="form-group">
+                            <label for="item-name">Item Name:</label>
+                            <input type="text" id="item-name" name="item-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="item-description">Description:</label>
+                            <input type="text" id="item-description" name="item-description" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="item-price">Price:</label>
+                            <input type="text" id="item-price" name="item-price" required>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit">Add Item</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="hotel-details" class="tab-content">
+                <h2>Hotel Address Details</h2>
+                <div class="address-details-container">
+                    <form action="/update-address" method="POST">
+                        <div class="form-group">
+                            <label for="hotel-address">Address:</label>
+                            <input type="text" id="hotel-address" name="hotel-address" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="hotel-city">City:</label>
+                            <input type="text" id="hotel-city" name="hotel-city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="hotel-state">State:</label>
+                            <input type="text" id="hotel-state" name="hotel-state" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="hotel-zip">Zip Code:</label>
+                            <input type="text" id="hotel-zip" name="hotel-zip" required>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit">Update Address</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="user-details" class="tab-content">
+                <h2>User Details</h2>
+                <p>Manage user information and settings here.</p>
+            </div>
+            <div id="logout" class="tab-content">
+                <h2>Logout</h2>
+                <p>You have successfully logged out. Thank you for visiting!</p>
+                <p><a href="admin_login.html">Return to Login</a></p>
+            </div>
+        </div>
+    </div>
+    <script>
+        const tabLinks = document.querySelectorAll('.tab-link');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const tab = link.getAttribute('data-tab');
+
+                tabLinks.forEach(link => {
+                    link.classList.remove('active');
+                });
+
+                link.classList.add('active');
+
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                });
+
+                document.getElementById(tab).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

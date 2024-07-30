@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    {% comment %} <link rel="stylesheet" href="styles.css"> {% endcomment %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- Bootstrap JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+            <img src="{% static 'images/air_logo.png' %}" alt="Wheels on Meals Logo">
+        </div>
+        <ul>
+            <li><a href="{% url "home"%}"><b>Home</b></a></li>
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn"><b>Login</b></a>
+                <div class="dropdown-content">
+                    <a href="{% url "admin_login" %}"><b>Admin Login</b></a>
+                    <a href="{% url "User_login" %}"><b>User Login</b></a>
+                    <a href="{% url "house_owner" %}"><b>Hotel Login</b></a>
+                </div>
+            </li>
+            <li><a href="{% url "user_register"%}"><b>Registration</b></a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+        </ul>
+    </nav>
+    </header>
+    <div class="container">
+        <h2>User Profile</h2>
+        <p>Welcome to your profile page. Here you can view and update your information.</p>
+
+        <div class="profile-info">
+            <h3>Contact Information</h3>
+            <p><strong>Name:</strong> vinod kumar</p>
+            <p><strong>Email:</strong> vinodkr8833@gmail.com</p>
+            <p><strong>Phone:</strong> +91 7606945133</p>
+        </div>
+
+        <div class="update-form">
+            <h3>Update Profile</h3>
+            <form action="/update_profile" method="post">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" value="vinod kumar" required>
+
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value=" vinodkr8833@gmail.com" required>
+
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone" value="+91 7606945133" required>
+
+                <button type="submit">Update</button>
+            </form>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h3>About Us</h3>
+                <p>We are passionate about food and aim to provide the best dining experience. From restaurant recommendations to recipes, we've got it all.</p>
+            </div>            
+            <div class="footer-section contact">
+                <h3>Contact Us</h3>
+                <p><strong>Email:</strong> <a href="mailto:support@wheelonmeals.com">support@wheelonmeals.com</a></p>
+                <p><strong>Phone:</strong> +91 1234567890 </p>
+                <p><strong>Address:</strong> Saibaba Colony, Coimbatore, Tamil Nadu</p>
+            </div>
+            <div class="footer-section social">
+                <h3>Follow Us</h3>
+                <p><b>𝕙𝕖𝕒𝕣𝕥𝕝𝕖𝕤𝕤_𝕜𝕚𝕟𝕘 ♕</b></p>
+                <a href="https://facebook.com/foodapp" target="_blank" class="social-icon">Facebook</a>
+                <a href="https://twitter.com/foodapp" target="_blank" class="social-icon">Twitter</a>
+                <a href="https://instagram.com/foodapp" target="_blank" class="social-icon">Instagram</a>
+                <a href="https://linkedin.com/company/foodapp" target="_blank" class="social-icon">LinkedIn</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Wheels on Meals. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="scripts.js"></script>
+</body>
+</html>

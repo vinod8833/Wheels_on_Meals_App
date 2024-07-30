@@ -1,0 +1,85 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Contact Us{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- Bootstrap JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+            <img src="{% static 'images/air_logo.png' %}" alt="Wheels on Meals Logo">
+        </div>
+        <ul>
+            <li><a href="{% url "home"%}"><b>Home</b></a></li>
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn"><b>Login</b></a>
+                <div class="dropdown-content">
+                    <a href="{% url "admin_login" %}"><b>Admin Login</b></a>
+                    <a href="{% url "User_login" %}"><b>User Login</b></a>
+                    <a href="{% url "house_owner" %}"><b>Hotel Login</b></a>
+                </div>
+            </li>
+            <li><a href="{% url "user_register"%}"><b>Registration</b></a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+        </ul>
+    </nav>
+    </header>
+    <div class="container">
+        <h2>Contact Us</h2>
+        <p>If you have any questions, feel free to reach out to us using the contact form below or through our contact details.</p>
+        <div class="contact-form">
+            <form action="submit_form.php" method="post">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="4" required></textarea>
+
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+            
+    </div>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h3>About Us</h3>
+                <p>We are passionate about food and aim to provide the best dining experience. From restaurant recommendations to recipes, we've got it all.</p>
+            </div>            
+            <div class="footer-section contact">
+                <h3>Contact Us</h3>
+                <p><strong>Email:</strong> <a href="mailto:support@wheelonmeals.com">support@wheelonmeals.com</a></p>
+                <p><strong>Phone:</strong> +91 1234567890 </p>
+                <p><strong>Address:</strong> Saibaba Colony, Coimbatore, Tamil Nadu</p>
+            </div>
+            <div class="footer-section social">
+                <h3>Follow Us</h3>
+                <p><b>𝕙𝕖𝕒𝕣𝕥𝕝𝕖𝕤𝕤_𝕜𝕚𝕟𝕘 ♕</b></p>
+                <a href="https://facebook.com/foodapp" target="_blank" class="social-icon">Facebook</a>
+                <a href="https://twitter.com/foodapp" target="_blank" class="social-icon">Twitter</a>
+                <a href="https://instagram.com/foodapp" target="_blank" class="social-icon">Instagram</a>
+                <a href="https://linkedin.com/company/foodapp" target="_blank" class="social-icon">LinkedIn</a>
+
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Wheels on Meals. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="scripts.js"></script>
+</body>
+</html>

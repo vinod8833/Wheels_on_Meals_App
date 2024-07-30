@@ -1,0 +1,211 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Registration{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        body{
+            background-color: antiquewhite;
+        }
+            .container h2 {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .container form {
+                display: flex;
+                flex-direction: column;
+            }
+            .container form label {
+                margin-bottom: 5px;
+                font-weight: bold;
+            }
+            .container form input[type="text"],
+            .container form input[type="password"],
+            .container form input[type="date"],
+            .container form input[type="tel"],
+            .container form input[type="number"],
+            .container form textarea,
+            .container form select {
+                padding: 10px;
+                margin-bottom: 10px;
+                border: 1px solid #e9c4c4;
+                border-radius: 5px;
+            }
+            .container form input[type="radio"] {
+                margin-right: 10px;
+            }
+            .container form button {
+                background-color: #45a049;
+                color: rgb(248, 234, 234);
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                text-align: center;
+            }
+            .container form button:hover {
+                background-color: #45a049;
+            }
+            .container .forgot-password {
+                display: block;
+                text-align: center;
+                margin-top: 10px;
+                color: #007BFF;
+                text-decoration: none;
+            }
+            .container .forgot-password:hover {
+                text-decoration: underline;
+            }
+            .container p {
+                text-align: center;
+            }
+            .container p a {
+                color: #007BFF;
+                text-decoration: none;
+            }
+            .container p a:hover {
+                text-decoration: underline;
+            } 
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+            <img src="{% static 'images/air_logo.png' %}" alt="Wheels on Meals Logo">
+        </div>
+        <ul>
+            <li><a href="{% url "home"%}"><b>Home</b></a></li>
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn"><b>Login</b></a>
+                <div class="dropdown-content">
+                    <a href="{% url "admin_login" %}"><b>Admin Login</b></a>
+                    <a href="{% url "User_login" %}"><b>User Login</b></a>
+                    <a href="{% url "house_owner" %}"><b>Hotel Login</b></a>
+                </div>
+            </li>
+            <li><a href="{% url "user_register"%}"><b>Registration</b></a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+        </ul>
+    </nav>
+    </header>
+    <div class="container">
+        <h2>User Registration</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="fullname">fullname</label>
+            <input type="text" id="fullname" name="fullname" required><br>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required><br>
+
+            <label for="email">email</label>
+            <input type="email" id="email" name="email" required><br>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required><br>
+            <label for="gender">Gender:
+            <input type="radio" id="male" name="gender" value="male" required>
+            <label for="male">Male</label>
+            <input type="radio" id="female" name="gender" value="female" required>
+            <label for="female">Female</label>
+        </label>
+            <br><br>
+
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" name="dob" required><br>
+
+            <label for="age">Age</label>
+            <input type="number" id="age" name="age" required><br>
+
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" required><br>
+
+            <label for="address">Address</label>
+            <textarea id="address" name="address" rows="3" required></textarea><br>
+
+            <label for="country">Country</label>
+            <select id="country" name="country" required>
+                <option value="" disabled selected>Select your country</option>
+                <option value="India">India</option>
+                <option value="USA">USA</option>
+                <option value="UK">UK</option>
+                <option value="Canada">Canada</option>
+                <option value="Australia">Australia</option>
+                <option value="Germany">Germany</option>
+                <option value="France">France</option>
+                <option value="Japan">Japan</option>
+                <!-- Add more countries as needed -->
+            </select><br>
+
+            <label for="state">State</label>
+            <select id="state" name="state" required>
+                <option value="" disabled selected>Select your state</option>
+                <option value="Tamil Nadu">Tamil Nadu</option>
+                <option value="California">California</option>
+                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                <option value="Assam">Assam</option>
+                <option value="Bihar">Bihar</option>
+                <option value="Chhattisgarh">Chhattisgarh</option>
+                <option value="Goa">Goa</option>
+                <option value="Gujarat">Gujarat</option>
+                <!-- Add more states as needed -->
+            </select><br>
+
+            <label for="city">City</label>
+            <select id="city" name="city" required>
+                <option value="" disabled selected>Select your city</option>
+                <option value="Coimbatore">Coimbatore</option>
+                <option value="Bengaluru">Bengaluru</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Jaipur">Jaipur</option>
+                <option value="Lucknow">Lucknow</option>
+                <option value="Hyderabad">Hyderabad</option>
+                <!-- Add more cities as needed -->
+            </select>
+            <br>
+
+            <button type="submit">Submit</button><br>
+            <button type="reset">Reset</button><br>
+
+            <a href="#" class="forgot-password">Forgot Password?</a>
+        </form>
+        <p>Already have an account? <a href="{% url "User_login" %}">Login</a></p>
+    </div>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h3>About Us</h3>
+                <p>We are passionate about food and aim to provide the best dining experience. From restaurant recommendations to recipes, we've got it all.</p>
+            </div>            
+            <div class="footer-section contact">
+                <h3>Contact Us</h3>
+                <p><strong>Email:</strong> <a href="mailto:support@wheelonmeals.com">support@wheelonmeals.com</a></p>
+                <p><strong>Phone:</strong> +91 1234567890 </p>
+                <p><strong>Address:</strong> Saibaba Colony, Coimbatore, Tamil Nadu</p>
+            </div>
+            <div class="footer-section social">
+                <h3>Follow Us</h3>
+                <p><b>𝕙𝕖𝕒𝕣𝕥𝕝𝕖𝕤𝕤_𝕜𝕚𝕟𝕘 ♕</b></p>
+                <a href="https://facebook.com/foodapp" target="_blank" class="social-icon">Facebook</a>
+                <a href="https://twitter.com/foodapp" target="_blank" class="social-icon">Twitter</a>
+                <a href="https://instagram.com/foodapp" target="_blank" class="social-icon">Instagram</a>
+                <a href="https://linkedin.com/company/foodapp" target="_blank" class="social-icon">LinkedIn</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Wheels on Meals. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
+

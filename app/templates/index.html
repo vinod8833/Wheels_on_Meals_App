@@ -1,0 +1,402 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Home Page{% endblock %}</title>
+    {% comment %} <link rel="stylesheet" href="styles.css"> {% endcomment %}
+    <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- Bootstrap JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<style>
+    .carousel-inner img {
+        width: auto; 
+        height: 100%;
+    }
+    
+    .carousel {
+        max-width: 2500px; 
+        margin: auto;
+    }
+    
+    .carousel-control {
+        background: rgba(0, 0, 0, 0.5); 
+    }
+    
+</style>
+<link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <header>
+    <nav>
+        <div class="logo">
+        <img src="{% static 'images/air_logo.png' %}" alt="Wheels on Meals Logo">
+    </div>
+    <ul>
+            <li><a href="{% url "home"%}"><b>Home</b></a></li>
+        <li class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn"><b>Login</b></a>
+            <div class="dropdown-content">
+                <a href="{% url "admin_login" %}"><b>Admin Login</b></a>
+                <a href="{% url "User_login" %}"><b>User Login</b></a>
+                <a href="{% url "house_owner" %}"><b>Hotel Login</b></a>
+            </div>
+        </li>
+        <li><a href="{% url "user_register"%}"><b>Registration</b></a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li><a href="{% url 'contact' %}">Contact</a></li>
+        {% comment %} <li><a href="{% url 'payment_view' %}">Payment</li> {% endcomment %}
+
+    </ul>
+</nav>
+</header>
+<!-- images -->
+{% comment %} <div id="foodCarousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        <div class="item active">
+            <a href="#"><img src=" {% static 'images/e-wallpaper-preview.jpg' %}" alt="Image 1"></a>
+        </div>
+        <div class="item">
+            <a href="#"><img src=" {% static 'images/brown-bird-perching-during-daytime-wren-wren-wallpaper-preview.jpg' %}" alt="Image 2"></a>
+        </div>
+        <div class="item">
+            <a href="#"><img src=" {% static 'images/allpaper-preview (1).jpg' %}" alt="Image 3"></a>
+        </div>
+        <div class="item">
+            <a href="#"><img src="{% static 'images/melons-wallpaper-preview.jpg' %}" alt="Image 4"></a>
+        </div>
+        <div class="item">
+            <a href="#"><img src="{% static 'images/wi-fruit-wallpaper-preview.jpg' %}" alt="Image 5"></a>
+        </div>
+        <div class="item">
+            <a href="#"><img src="{% static 'images/ndian-wallpaper-preview.jpg' %}" alt="Image 6"></a>
+        </div>
+        <div class="item">
+            <a href="#"><img src="{% static 'images/s-freak-shake-wallpaper-preview.jpg' %}" alt="Image 7"></a>
+        </div>
+    </div>
+    <a class="left carousel-control" href="#foodCarousel" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#foodCarousel" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div> {% endcomment %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <div class="content">
+        <style>
+            .container h2 {
+                font-family: 'Arial', sans-serif; 
+                font-size: 36px; 
+                color: #007FFF; 
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); 
+                letter-spacing: 2px; 
+            }
+        </style>
+        <div class="container">
+            <h2>Best and Top Restaurants in Coimbatore</h2>
+        </div>
+        <div class="container">
+            <h2 align="left">What's on your mind?</h2>
+                <div class="menu" id="menu-list">
+                    <div class="menu-item">
+                        <img src="{% static 'images/fish.jpeg' %}" alt="Fish Fry">
+                        <h5>Fish Fry</h5>
+                    </div>
+                    <div class="menu-item">
+                        <img src="{% static 'images/burger.avif' %}" alt="Burgers">
+                        <h5>Burgers</h5>
+                    </div>
+                    <div class="menu-item">
+                        <img src="{% static 'images/-wallpaper-preview.jpg' %}" alt="Pizzas">
+                        <h5>Pizzas</h5>
+                    </div>
+                    <div class="menu-item">
+                        <img src="{% static 'images/veg-rolls-1-kg-20-pcs-500x500.webp' %}" alt="Rolls">
+                        <h5>Rolls</h5>
+                    </div>
+                    <div class="menu-item">
+                        <img src="{% static 'images/Momos-snap.jpg' %}" alt="Momos">
+                        <h5>Momos</h5>
+                    </div>
+                    <div class="menu-item">
+                        <img src="{% static 'images/chicken-briyani-11.jpg' %}" alt="Biryani">
+                        <h5>Biryani</h5>
+                    </div>
+                    <div class="menu-item">
+                        <img src="{% static 'images/pexels-photo-1437267.jpeg' %}" alt="Burgers">
+                        <h5>Burgers</h5>
+                    </div>                    
+                    <!-- Add more menu items as needed -->
+            </div>
+        </div>
+        <div class="container">
+            <h2>Featured Restaurants</h2>
+            <div class="scroll-container">
+                <button class="scroll-button left" onclick="scrollLeft('restaurant-list')">&#9664;</button>
+                <div class="restaurants" id="restaurant-list">
+                    <div class="restaurant">
+                        <img src="{% static 'images/Paneer Butter Masala.jpg' %}" alt="Restaurant 1">
+                        <h3>Butter Paneer</h3>
+                        <h5>⭐ 4.2 21-26 min</h5>
+                        <p>Price: ₹200</p>
+                        <a href="{% url 'payment' %}" class="btn btn-primary">Order Now</a>
+                    </div>
+                    <div class="restaurant">
+                        <img src="{% static 'images/istockphoto-1072940148-612x612.jpg' %}" alt="Restaurant 2">
+                        <h3>Egg Masala Gravy</h3>
+                        <h5>⭐ 4.5 15-20 min</h5>
+                        <p>Price: ₹150</p>
+                        <a href="{% url 'payment' %}" class="btn btn-primary">Order Now</a>
+                    </div>
+                    <div class="restaurant">
+                        <img src="{% static 'images/Margherita Pizza.jpg' %}" alt="Restaurant 3">
+                        <h3>Margherita Pizza</h3>
+                        <h5>⭐ 4.5 15-20 min</h5>
+                        <p>Price: ₹250</p>
+                        <a href="{% url 'payment' %}" class="btn btn-primary">Order Now</a>
+                        </div>
+                    <div class="restaurant">
+                        <img src="{% static 'images/pexels-photo-1583884.webp' %}" alt="Restaurant 3">
+                        <h3>French Fries</h3>
+                        <h5>⭐ 4.0 11-18 min</h5>
+                        <p>Price: ₹80</p>
+                        <a href="{% url 'payment' %}" class="btn btn-primary">Order Now</a>
+                        </div>
+                    <div class="restaurant">
+                        <img src="{% static 'images/Butter Chicken.jpg' %}" alt="Restaurant 3">
+                        <h3>Butter Chicken</h3>
+                        <h5>⭐ 4.2 21-26 min</h5>
+                        <p>Price: ₹300</p>
+                        <a href="{% url 'payment' %}" class="btn btn-primary">Order Now</a>
+                       </div>
+
+                    <div class="restaurant">
+                        <img src="{% static 'images/Mutton Biryani.jpg' %}" alt="Restaurant 3">
+                        <h3>Mutton Biryani</h3>
+                        <h5>⭐ 4.8 17-28 min</h5>
+                        <p>Price: ₹350</p>
+                        <a href="{% url 'payment' %}" class="btn btn-primary">Order Now</a>
+                      </div>
+                    <div class="restaurant">
+                        <img src="{% static 'images/Veg Manchurian.jpg' %}" alt="Restaurant 3">
+                        <h3>Veg Manchurian</h3>
+                        <h5>⭐ 4.6 21-28 min</h5>
+                        <p>Price: ₹180</p>
+                        <a href="{% url 'payment' %}" class="btn btn-primary">Order Now</a>
+                      </div> <div class="restaurant">
+                        <img src="{% static 'images/Chicken Lollipop.jpg' %}" alt="Restaurant 3">
+                        <h3>Chicken Lollipop</h3>
+                        <h5>⭐ 4.0 11-18 min</h5>
+                        <p>Price: ₹220</p>
+                        <a href="{% url 'payment' %}" class="btn btn-primary">Order Now</a>
+                       </div>
+                    <div class="restaurant">
+                        <img src="{% static 'images/Paneer Tikka.jpg' %}" alt="Restaurant 3">
+                        <h3>Paneer Tikka</h3>
+                        <h5>⭐ 4.5 15-20 min</h5>
+                        <p>Price: ₹210</p>
+                        <a href="{% url 'payment' %}" class="btn btn-primary">Order Now</a>
+                       </div>
+                    <div class="restaurant">
+                        <img src="{% static 'images/Veg Hakka Noodles.jpg' %}" alt="Restaurant 3">
+                        <h3>Hakka Noodles</h3>
+                        <h5>⭐ 4.2 21-26 min</h5>
+                        <p>Price: ₹160</p>
+                        <a href="{% url 'payment' %}" class="btn btn-primary">Order Now</a>
+                        </div>
+                    <!-- Add more restaurant divs as needed -->
+                </div>
+                <button class="scroll-button right" onclick="scrollRight('restaurant-list')">&#9654;</button>
+            </div>
+        </div>
+        <div class="container">
+            <h2>Popular Dishes</h2>
+                <div class="dishes" id="dish-list">
+                    <div class="dish">  
+                        <img src="{% static 'images/Gulab Jamun.jpg' %}" alt="Dish 1">
+                        <h3>Gulab Jamun</h3>
+                        <p>Price: ₹200</p>
+                        <a href="{% url 'payment' %}" class="btn btn-danger">Order Now</a>
+                    </div>
+                    
+                    <div class="dish">
+                        <img src="{% static 'images/Rasgulla.jpg' %}" alt="Dish 2">
+                        <h3>Rasgulla</h3>
+                        <p>Price: ₹250</p>
+                        <a href="{% url 'payment' %}" class="btn btn-danger">Order Now</a>
+                    </div>
+                    <div class="dish">
+                        <img src="{% static 'images/Chocolate Brownie.jpg' %}" alt="Dish 3">
+                        <h3>Chocolate Brownie</h3>
+                        <p>Price: ₹300</p>
+                        <a href="{% url 'payment' %}" class="btn btn-danger">Order Now</a>
+                    </div>
+                    <div class="dish">
+                        <img src="{% static 'images/Ice Cream Sundae.jpg' %}" alt="Dish 1">
+                        <h3>Ice Cream Sundae</h3>
+                        <p>Price: ₹200</p>
+                        <a href="{% url 'payment' %}" class="btn btn-danger">Order Now</a>
+                        </div>
+                    <div class="dish">
+                        <img src="{% static 'images/Jalebi.jpg' %}" alt="Dish 2">
+                        <h3>Jalebi</h3>
+                        <p>Price: ₹150</p>
+                        <a href="{% url 'payment' %}" class="btn btn-danger">Order Now</a>
+                    </div>
+                    <div class="dish">
+                        <img src="{% static 'images/Rasmalai.jpg' %}" alt="Dish 3">
+                        <h3>Tiramisu</h3>
+                        <p>Price: ₹300</p>
+                        <a href="{% url 'payment' %}" class="btn btn-danger">Order Now</a>
+                    </div>
+                    <div class="dish">
+                        <img src="{% static 'images/Cheesecake.jpg' %}" alt="Dish 1">
+                        <h3>Cheesecake</h3>
+                        <p>Price: ₹200</p>
+                        <a href="{% url 'payment' %}" class="btn btn-danger">Order Now</a>
+                    </div>
+                    <div class="dish">
+                        <img src="{% static 'images/Chocolate Mousse.jpg' %}" alt="Dish 2">
+                        <h3>Chocolate Mousse</h3>
+                        <p>Price: ₹250</p>
+                        <a href="{% url 'payment' %}" class="btn btn-danger">Order Now</a>
+                    </div>
+                    <div class="dish">
+                        <img src="{% static 'images/Kulfi.jpg' %}" alt="Dish 3">
+                        <h3>Kulfi</h3>
+                        <p>Price: ₹300</p>
+                        <a href="{% url 'payment' %}" class="btn btn-danger">Order Now</a>
+                    </div>
+            </div>
+        </div>
+
+        <div class="container beverages-container">
+            <h2>Popular Beverages</h2>
+            <div class="beverages" id="beverage-list">
+                <div class="beverage">
+                    <img src="{% static 'images/Mango Smoothie.jpg' %}" alt="Beverage 1">
+                    <h3>Mango Smoothie</h3>
+                    <h5>⭐ 4.1 18-22 min</h5>
+                    <p>Price: ₹150</p>
+                    <a href="{% url 'payment' %}" class="btn btn-success">Order Now</a>
+                </div>
+                <div class="beverage">
+                    <img src="{% static 'images/Strawberry Shake.jpg' %}" alt="Beverage 2">
+                    <h3>Strawberry Shake</h3>
+                    <h5>⭐ 4.2 21-26 min</h5>
+                    <p>Price: ₹180</p>
+                    <a href="{% url 'payment' %}" class="btn btn-success">Order Now</a>
+                </div>
+                <div class="beverage">
+                    <img src="{% static 'images/Cold Coffee.jpg' %}" alt="Beverage 3">
+                    <h3>Cold Coffee</h3>
+                    <h5>⭐ 4.7 20-25 min</h5>
+                    <p>Price: ₹120</p>
+                    <a href="{% url 'payment' %}" class="btn btn-success">Order Now</a>
+                </div>
+                <div class="beverage">
+                    <img src="{% static 'images/Lemonade.jpg' %}" alt="Beverage 4">
+                    <h3>Lemonade</h3>
+                    <h5>⭐ 4.0 11-18 min</h5>
+                    <p>Price: ₹100</p>
+                    <a href="{% url 'payment' %}" class="btn btn-success">Order Now</a>
+                </div>
+                <div class="beverage">
+                    <img src="{% static 'images/Green Tea.jpg' %}" alt="Beverage 5">
+                    <h3>Green Tea</h3>
+                    <h5>⭐ 4.5 15-20 min</h5>
+                    <p>Price: ₹50</p>
+                    <a href="{% url 'payment' %}" class="btn btn-success">Order Now</a>
+                </div>
+                <div class="beverage">
+                    <img src="{% static 'images/Hot Chocolate.jpg' %}" alt="Beverage 5">
+                    <h3>Hot Chocolate</h3>
+                    <h5>⭐ 4.7 20-25 min</h5>
+                    <p>Price: ₹150</p>
+                    <a href="{% url 'payment' %}" class="btn btn-success">Order Now</a>
+                </div>
+                <div class="beverage">
+                    <img src="{% static 'images/Fruit Punch.jpg' %}" alt="Beverage 7">
+                    <h3>Fruit Punch</h3>
+                    <h5>⭐ 4.1 10-15 min</h5>
+                    <p>Price: ₹130</p>
+                    <a href="{% url 'payment' %}" class="btn btn-success">Order Now</a>
+                </div>
+                <div class="beverage">
+                    <img src="{% static 'images/Black Coffee.jpg' %}" alt="Beverage 8">
+                    <h3>Black Coffee</h3>
+                    <h5>⭐ 4.2 21-26 min</h5>
+                    <p>Price: ₹90</p>
+                    <a href="{% url 'payment' %}" class="btn btn-success">Order Now</a>
+                </div>
+                <div class="beverage">
+                    <img src="{% static 'images/ktail-wallpaper-preview.jpg' %}" alt="Beverage 8">
+                    <h3>Berry Smoothie</h3>
+                    <h5>⭐ 4.7 20-25 min</h5>
+                    <p>Price: ₹170</p>
+                    <a href="{% url 'payment' %}" class="btn btn-success">Order Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h3>About Us</h3>
+                <p>We are passionate about food and aim to provide the best dining experience. From restaurant recommendations to recipes, we've got it all.</p>
+            </div>            
+            <div class="footer-section contact">
+                <h3>Contact Us</h3>
+                <p><strong>Email:</strong> <a href="mailto:support@wheelonmeals.com">support@wheelonmeals.com</a></p>
+                <p><strong>Phone:</strong> +91 1234567890 </p>
+                <p><strong>Address:</strong> Saibaba Colony, Coimbatore, Tamil Nadu</p>
+            </div>
+            <div class="footer-section social">
+                <h3>Follow Us</h3>
+                <p><b>𝕙𝕖𝕒𝕣𝕥𝕝𝕖𝕤𝕤_𝕜𝕚𝕟𝕘 ♕</b></p>
+                <a href="https://facebook.com/foodapp" target="_blank" class="social-icon">Facebook</a>
+                <a href="https://twitter.com/foodapp" target="_blank" class="social-icon">Twitter</a>
+                <a href="https://instagram.com/foodapp" target="_blank" class="social-icon">Instagram</a>
+                <a href="https://linkedin.com/company/foodapp" target="_blank" class="social-icon">LinkedIn</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Wheels on Meals. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<script>
+        $(document).ready(function(){
+            $('#foodCarousel').carousel({
+                interval: 5000 // Change slide every 5 seconds
+            });
+        });
+
+        
+            function scrollLeft(id) {
+                document.getElementById(id).scrollBy({ left: -200, behavior: 'smooth' });
+            }
+            
+            function scrollRight(id) {
+                document.getElementById(id).scrollBy({ left: 200, behavior: 'smooth' });
+            }
+        
+    </script>
+    <script src="{% static 'scripts.js' %}"></script>
+</body>
+</html>

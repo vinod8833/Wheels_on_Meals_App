@@ -1,0 +1,328 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    {% comment %} <link rel="stylesheet" href="styles.css"> {% endcomment %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        ul,
+        li {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #e0eafc, #cfdef3);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #1c1c1c;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar .logo h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #ff5722;
+            font-family: 'Roboto', sans-serif;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .sidebar nav ul {
+            list-style-type: none;
+            padding: 0;
+            flex-direction: column;
+        }
+
+        .sidebar nav ul li {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .sidebar nav ul li a {
+            color: orangered;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+            width: 100%;
+        }
+
+        .sidebar nav ul li a i {
+            margin-right: 20px;
+        }
+
+        .sidebar nav ul li a:hover,
+        .sidebar nav ul li a.active {
+            background-color: #333;
+            transform: scale(1.02);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-left: 21px;
+            overflow-y: auto;
+        }
+
+        .main-content header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-content header img {
+            border-radius: 50%;
+            height: 40px;
+            margin-right: 20px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .header-right img {
+            border-radius: 50%;
+            height: 40px;
+            width: 40px;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+
+        .header-right span {
+            font-size: 16px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .profile-picture {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-picture img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border: 5px solid #ff5722;
+        }
+
+        .profile-details {
+            text-align: center;
+        }
+
+        .profile-details h2 {
+            margin-bottom: 10px;
+        }
+
+        .profile-container,
+        .add-item-container,
+        .address-details-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="password"],
+        .form-group input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .form-group button:hover {
+            background-color: #45a049;
+        }
+
+        .order-item,
+        .return-policy-item,
+        .settings-item {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="logo">
+                <h1>USER DASHBOARD</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="tab-link" data-tab="profile"><i class="fas fa-user"></i>Profile</a></li>
+                    <li><a href="#" class="tab-link" data-tab="orders"><i class="fas fa-box"></i>Orders</a></li>
+                    <li><a href="#" class="tab-link" data-tab="return-policy"><i class="fas fa-undo"></i>Return Policy</a></li>
+                    <li><a href="#" class="tab-link" data-tab="logout"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="main-content">
+            <div id="profile" class="tab-content active">
+                <div class="profile-picture">
+                    <img src="{% static 'images/air_logo.png' %}" alt="Profile Picture">
+                </div>
+                <div class="profile-details">
+                    <h1>Profile Management</h1>
+                    <h2>Vinod Kumar</h2>
+                    <p>Email: vinod.kumar@example.com</p>
+                    <p>Phone: +91 1234567890</p>
+                    <div class="profile-container">
+                        <form action="/update-profile" method="POST" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="profile-picture">Profile Picture:</label>
+                                <input type="file" id="profile-picture" name="profile-picture" accept="image/*">
+                            </div>
+                            <div class="form-group">
+                                <button type="submit">Update Profile</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="orders" class="tab-content">
+                <h2>Orders</h2>
+                <div class="order-item">
+                    <h3>Order #12345</h3>
+                    <p>Date: July 15, 2024</p>
+                    <p>Status: Delivered</p>
+                    <p>Items: Pizza, Burger, Coke</p>
+                </div>
+                <div class="order-item">
+                    <h3>Order #12346</h3>
+                    <p>Date: July 18, 2024</p>
+                    <p>Status: Pending</p>
+                    <p>Items: Pasta, Salad</p>
+                </div>
+                <p>Here you can view your order history and track current orders.</p>
+            </div>
+            <div id="return-policy" class="tab-content">
+                <h2>Return Policy</h2>
+                <div class="return-policy-item">
+                    <h3>Return Window</h3>
+                    <p>You have 30 days from the date of purchase to return items.</p>
+                </div>
+                <div class="return-policy-item">
+                    <h3>Conditions</h3>
+                    <p>Items must be in their original packaging and condition to be eligible for a return.</p>
+                </div>
+                <div class="return-policy-item">
+                    <h3>Process</h3>
+                    <p>To initiate a return, please contact our customer service or use the return request form on our website.</p>
+                </div>
+                <p>Read our return policy to understand the process of returning items.</p>
+            </div>
+            <div id="logout" class="tab-content">
+                <h2>Logout</h2>
+                <p>You have successfully logged out. Thank you for visiting!</p>
+                <p><a href="user_login.html">Return to Login</a></p>
+            </div>
+        </div>
+    </div>
+    <script>
+        const tabLinks = document.querySelectorAll('.tab-link');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const tab = link.getAttribute('data-tab');
+
+                tabLinks.forEach(link => {
+                    link.classList.remove('active');
+                });
+
+                link.classList.add('active');
+
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                });
+
+                document.getElementById(tab).classList.add('active');
+            });
+        });
+    </script>
+</body>
+
+</html>

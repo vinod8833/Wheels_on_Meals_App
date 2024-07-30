@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Payment Details{% endblock %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #c8aaaa;
+            padding-top: 50px;
+        }
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: auto;
+            position: relative;
+        }
+        h2 {
+            color: #d45929;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .order-summary {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+        .order-summary h4 {
+            margin-bottom: 10px;
+        }
+        .order-summary p {
+            margin: 5px 0;
+        }
+        .payment-method {
+            margin-bottom: 20px;
+        }
+        .payment-method label {
+            font-size: 18px;
+            color: #333;
+        }
+        .payment-method .method {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: #f9f9f9;
+        }
+        .payment-method .method input[type="radio"] {
+            margin-right: 15px;
+        }
+        .payment-method .method i {
+            font-size: 24px;
+            margin-right: 15px;
+            color: #d45929;
+        }
+        .card-details, .billing-address {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+        .card-details input, .billing-address input {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: calc(100% - 22px);
+        }
+        .btn-primary {
+            background-color: #d45929;
+            border-color: #d45929;
+        }
+        .btn-primary:hover {
+            background-color: #b34d23;
+            border-color: #a23c1d;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #777;
+        }
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+        .loader {
+            border: 4px solid rgba(0, 0, 0, 0.1); /* Light grey */
+            border-left: 4px solid #d45929; /* Orange */
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .success-message, .thank-you-message, .error-message {
+            display: none;
+            text-align: center;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .thank-you-message {
+            color: #28a745;
+        }
+        .error-message {
+            color: #dc3545;
+        }
+
+        footer {
+            background-color: #FFDAB9;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: auto;  /* Ensure footer stays at the bottom */
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 1px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .footer-section {
+            margin: 10px;
+            flex: 1;
+        }
+        
+        .footer-section h3 {
+            margin-top: 0;
+            color: green;
+        }
+        
+        .footer-section p,
+        .footer-section a {
+            margin: 5px 0;
+            color: black;
+            text-decoration: none;
+        }
+        
+        .footer-section a:hover {
+            background-color: #555;
+            color: #ffc107;
+        }
+        
+        .footer-bottom {
+            background-color: #222;
+            padding: 10px ;
+            border-top: 1px solid green;
+        }
+        
+        .footer-bottom p {
+            margin: 0;
+        }
+        
+        .social-icon {
+            display: inline-block;
+            margin: 0 10px;
+            color: white;
+            text-transform: lowercase;
+            font-weight: bold;
+        }
+        
+        .social-icon:hover {
+            color: #ffc107;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <h4>You will be redirected to the <a href="{% url 'home' %}">Wheels on Meals</a> home page shortly.</h4>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="container"><br><br>
+    <h2>Payment Details</h2>
+
+    <!-- Order Summary -->
+    <div class="order-summary">
+        <h4>Order Summary</h4>
+        <p><strong>Item:</strong> <span id="item-name">Loading...</span></p>
+        <p><strong>Price:</strong> ₹<span id="item-price">0</span></p>
+    </div>
+
+    <!-- Payment Methods -->
+    <div class="payment-method">
+        <label>Select Payment Method:</label>
+        <div class="method">
+            <input type="radio" name="paymentMethod" value="creditCard" checked>
+            <i class="fab fa-cc-visa"></i>
+            <span>Credit Card</span>
+        </div>
+        <div class="method">
+            <input type="radio" name="paymentMethod" value="debitCard">
+            <i class="fab fa-cc-mastercard"></i>
+            <span>Debit Card</span>
+        </div>
+        <div class="method">
+            <input type="radio" name="paymentMethod" value="paypal">
+            <i class="fab fa-paypal"></i>
+            <span>PayPal</span>
+        </div>
+        <div class="method">
+            <input type="radio" name="paymentMethod" value="netBanking">
+            <i class="fas fa-university"></i>
+            <span>Net Banking</span>
+        </div>
+        <div class="method">
+            <input type="radio" name="paymentMethod" value="cashOnDelivery">
+            <i class="fas fa-money-bill-wave"></i>
+            <span>Cash on Delivery</span>
+        </div>
+    </div>
+
+    <div id="card-details" class="card-details">
+        <h4>Card Details</h4>
+        <input id="cardholder-name" type="text" placeholder="Cardholder's Name" required>
+        <input id="card-number" type="text" placeholder="Card Number" required>
+        <input id="expiry-date" type="text" placeholder="Expiry Date (MM/YY)" required>
+        <input id="cvv" type="text" placeholder="CVV" required>
+    </div>
+
+    <div class="billing-address">
+        <h4>Delivery Address</h4>
+        <input id="street-address" type="text" placeholder="Street Address" required>
+        <input id="city" type="text" placeholder="City" required>
+        <input id="state" type="text" placeholder="State" required>
+        <input id="zip-code" type="text" placeholder="ZIP Code" required>
+    </div>
+
+    <button id="complete-payment" type="button" class="btn btn-primary btn-lg btn-block">Complete Payment</button>
+    
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loader"></div>
+    </div>
+
+    <div id="success-message" class="success-message">
+        Payment Successful!
+    </div>
+    
+    <div id="thank-you-message" class="thank-you-message">
+        Thank you for choosing Cash on Delivery!
+    </div>
+    
+    <div id="error-message" class="error-message">
+        Please fill out all required fields correctly.
+    </div>
+    
+</div>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-section about">
+            <h3>About Us</h3>
+            <p>We are passionate about food and aim to provide the best dining experience. From restaurant recommendations to recipes, we've got it all.</p>
+        </div>            
+        <div class="footer-section contact">
+            <h3>Contact Us</h3>
+            <p><strong>Email:</strong> <a href="mailto:support@wheelonmeals.com">support@wheelonmeals.com</a></p>
+            <p><strong>Phone:</strong> +91 1234567890 </p>
+            <p><strong>Address:</strong> Saibaba Colony, Coimbatore, Tamil Nadu</p>
+        </div>
+        <div class="footer-section social">
+            <h3>Follow Us</h3>
+            <p><b>𝕙𝕖𝕒𝕣𝕥𝕝𝕖𝕤𝕤_𝕜𝕚𝕟𝕘 ♕</b></p>
+            <a href="https://facebook.com/foodapp" target="_blank" class="social-icon">Facebook</a>
+            <a href="https://twitter.com/foodapp" target="_blank" class="social-icon">Twitter</a>
+            <a href="https://instagram.com/foodapp" target="_blank" class="social-icon">Instagram</a>
+            <a href="https://linkedin.com/company/foodapp" target="_blank" class="social-icon">LinkedIn</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2024 Wheels on Meals. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+    document.getElementById("complete-payment").addEventListener("click", function() {
+        var paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+        var cardholderName = document.getElementById("cardholder-name").value;
+        var cardNumber = document.getElementById("card-number").value;
+        var expiryDate = document.getElementById("expiry-date").value;
+        var cvv = document.getElementById("cvv").value;
+
+        var streetAddress = document.getElementById("street-address").value;
+        var city = document.getElementById("city").value;
+        var state = document.getElementById("state").value;
+        var zipCode = document.getElementById("zip-code").value;
+
+        // Basic validation
+        var isValid = true;
+
+        // Clear previous messages
+        document.getElementById("error-message").style.display = "none";
+        document.getElementById("thank-you-message").style.display = "none";
+        document.getElementById("success-message").style.display = "none";
+        document.getElementById("loading-overlay").style.display = "flex";
+
+        if (paymentMethod === "creditCard" || paymentMethod === "debitCard" || paymentMethod === "paypal" || paymentMethod === "netBanking") {
+            if (!cardholderName || !cardNumber || !expiryDate || !cvv || !/^\d+$/.test(cardNumber) || !/^\d+$/.test(cvv) || !/^\d{2}\/\d{2}$/.test(expiryDate)) {
+                isValid = false;
+            }
+        }
+
+        if (!streetAddress || !city || !state || !zipCode || !/^\d+$/.test(zipCode)) {
+            isValid = false;
+        }
+
+        if (!isValid) {
+            document.getElementById("loading-overlay").style.display = "none";
+            document.getElementById("error-message").style.display = "block";
+            return;
+        }
+
+        setTimeout(function() {
+            document.getElementById("loading-overlay").style.display = "none";
+            
+            if (paymentMethod === "cashOnDelivery") {
+                // Show thank you message for Cash on Delivery
+                document.getElementById("thank-you-message").style.display = "block";
+            } else {
+                // Show success message for other payment methods
+                document.getElementById("success-message").style.display = "block";
+            }
+
+            // Redirect to home page after 3 seconds
+            setTimeout(function() {
+                window.location.href="{% url "home"%}";
+            }, 3000);
+        }, 3000); // Simulate 3 seconds delay
+    });
+</script>
+</body>
+</html>
