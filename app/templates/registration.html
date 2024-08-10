@@ -12,12 +12,14 @@
     <!-- Bootstrap JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <style>
-        body{
-            background-color: antiquewhite;
-        }
+        body {
+            background: linear-gradient(to right, lightblue, lightgreen, lightcoral);
+        }       
+        
             .container h2 {
                 text-align: center;
                 margin-bottom: 20px;
+                color: #ff0056;
             }
             .container form {
                 display: flex;
@@ -32,6 +34,7 @@
             .container form input[type="date"],
             .container form input[type="tel"],
             .container form input[type="number"],
+            .container form input[type="email"],
             .container form textarea,
             .container form select {
                 padding: 10px;
@@ -89,7 +92,7 @@
                 <div class="dropdown-content">
                     <a href="{% url "admin_login" %}"><b>Admin Login</b></a>
                     <a href="{% url "User_login" %}"><b>User Login</b></a>
-                    <a href="{% url "house_owner" %}"><b>Hotel Login</b></a>
+                    <a href="{% url "Hotel_login" %}"><b>Hotel Login</b></a>
                 </div>
             </li>
             <li><a href="{% url "user_register"%}"><b>Registration</b></a></li>

@@ -44,6 +44,7 @@ class Register(models.Model):
     password = models.CharField(max_length=10, null=True)
     gender = models.CharField(max_length=10, choices=gen, null=True)
     dob = models.DateField(null=True)
+    
     age = models.IntegerField(max_length=10, null=True)
     phone = models.IntegerField(null=True)
     address = models.CharField(max_length=100, null=True)
@@ -56,46 +57,40 @@ class Register(models.Model):
         return f"{self.username}"
     
     
-    
 
+    
 class FoodAppOwner(models.Model):
-    # Personal Information
-    full_name = models.CharField(max_length=100, null=True, blank=True)
-    date_of_birth = models.DateField(null=True, blank=True)
-    gender = models.CharField(max_length=1, choices=[('M', 'Male'), ('F', 'Female'), ('O', 'Other')], null=True, blank=True)
-    nationality = models.CharField(max_length=50, null=True, blank=True)
-    phone_number = models.CharField(max_length=15, null=True, blank=True)
-    email_address = models.EmailField(unique=True)
-    profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True, help_text="<br><b>Upload a profile photo</b>")
+    GENDER_CHOICE= [
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('O', 'Other'),
+    ]
     
-    # Restaurant Information
-    restaurant_name = models.CharField(max_length=100, unique=True)
-    restaurant_address = models.CharField(max_length=255)
-    city = models.CharField(max_length=100)
-    state_province = models.CharField(max_length=100, null=True, blank=True)
-    postal_code = models.CharField(max_length=20, null=True, blank=True)
-    country = models.CharField(max_length=50)
-    restaurant_description = models.TextField(null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    full_name = models.CharField(max_length=100,null=True)
+    date_of_birth = models.DateField()
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICE,null=True)
+    nationality = models.CharField(max_length=50,null=True)
+    phone_number = models.CharField(max_length=15,null=True)
+    email_address = models.EmailField()
+    street_address = models.CharField(max_length=255,null=True)
+    # city = models.CharField(max_length=100)
+    # state_province = models.CharField(max_length=100,null=True)
+    # postal_code = models.CharField(max_length=20,null=True)
+    # country = models.CharField(max_length=50,null=True)
+    profile =models.ImageField(upload_to="", null=True,help_text="<br><b>upload profile photo<b>")
+    username = models.CharField(max_length=50, unique=True,null=True)
+    password = models.CharField(max_length=50,null=True)
     
-    # Additional Information
-    website = models.URLField(null=True, blank=True)
-    social_media_links = models.JSONField(null=True, blank=True, help_text="Enter social media links as a JSON object")
-    contact_number = models.CharField(max_length=15, null=True, blank=True)
-    operational_hours = models.CharField(max_length=100, null=True, blank=True)
-    specialties = models.CharField(max_length=255, null=True, blank=True, help_text="E.g., Italian, Chinese, etc.")
-
-    # Authentication
-    username = models.CharField(max_length=50, unique=True)
-    password = models.CharField(max_length=128)  # Using a larger max_length for password storage
-
-    def __str__(self):
-        return self.restaurant_name
+    def str(self):
+        return f"{self.username}"
 
 
-class OrderItem(models.Model):
-    name = models.CharField(max_length=100)
-    quantity = models.PositiveIntegerField()
+
+class Item(models.Model):
+    item_name = models.CharField(max_length=100)
+    description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    image = models.ImageField(upload_to='', null=True, help_text="<br><b>upload profile photo<b>")
 
-    def __str__(self):
-        return self.name
+

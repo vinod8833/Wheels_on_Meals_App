@@ -1,91 +1,564 @@
-{% load static %}
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+        }
+
+        .dashboard {
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+    background: linear-gradient(to bottom, #FF6600, #2c3e50);
+            color: white;
+            padding: 20px;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+            transition: width 0.3s;
+        }
+        
+
+        .sidebar:hover {
+            width: 280px;
+        }
+        .logo h1 {
+            font-size: 1.8em;
+            margin: 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ffae00;
+            color: white;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li a {
+            color: #ecf0f1;
+            text-decoration: none;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        nav ul li a i {
+            margin-right: 10px;
+        }
+        
+        nav ul li a:hover, nav ul li a.active {
+            background-color: #3498db;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            background-color: #3498db;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            margin-top: 0;
+            font-size: 2em;
+            color: #2c3e50;
+        }
+
+        button {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, #2980b9, #3498db);
+            transform: scale(1.05);
+        }
+        .dashboard-overview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .overview-item {
+            background-color: #eea969;
+            border-radius: 8px;
+            padding: 20px;
+            flex: 1;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .overview-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .recent-activity {
+            margin-top: 30px;
+        }
+
+        .recent-activity ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .recent-activity ul li {
+            background-color: #f7d2d2;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 220px;
+            background: linear-gradient(135deg, #3498db, #2ecc71, #e74c3c);
+            color: white;
+            height: 100vh;
+            padding-top: 20px;
+            box-sizing: border-box;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sidebar img {
+            display: block;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            width: 100px;
+            height: 100px;
+            border: 4px solid #2c3e50;
+            box-shadow: 0 0 15px 5px #e74c3c, 0 0 20px 10px #3498db, 0 0 25px 15px #2ecc71;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 15px 20px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 700;
+            width: 100%;
+            text-align: left;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .sidebar a i {
+            margin-right: 10px;
+        }
+
+        .sidebar a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateX(10px);
+        }
+
+        .sidebar a.active {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: none;
+        }
+
+        .h2 {
+            text-align: center;
+            color: #27ae60;
+        }
+
+        .content {
+            margin-left: 220px; /* adjust for fixed sidebar */
+            flex-grow: 1;
+            padding: 20px;
+            padding-bottom: 60px; /* Space for footer */
+            box-sizing: border-box;
+            overflow-y: auto; /* Allow scrolling if content overflows */
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border-radius: 5px;
+            line-height: 1.8;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        #profile {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.8;
+        }
+
+        .profile-info h2, .profile-info p {
+            margin: 0;
+            margin-bottom: 10px;
+        }
+
+        .profile-info .details {
+            margin-top: 20px;
+            text-align: left;
+            width: 80%;
+        }
+
+        .profile-info .details p {
+            margin: 5px 0;
+        }
+
+        #add-house {
+            background-color: #3498db;
+            color: white;
+        }
+
+        #booked-status {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        #current-status {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        #logout {
+            background-color: #95a5a6;
+            color: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid white;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #34495e;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 120px);
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+
+        form label, form input, form textarea, form select {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        form input[type="submit"] {
+            width: auto;
+            padding: 10px 20px;
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            align-self: flex-end;
+        }
+
+        form input[type="submit"]:hover {
+            background-color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <a href="{% url "Prof" %}" class="tab-link"><i class="fas fa-user"></i>Profile</a>
+        <a href="{% url "Add" %}" class="tab-link"><i class="fas fa-home"></i>Add items</a>
+        <a href="{% url "Order"%}" class="tab-link"><i class="fas fa-calendar-check"></i>user order Status</a>
+        <a href="{% url "Hotel"%}" class="tab-link"><i class="fas fa-info-circle"></i>Hotel details</a>
+        <a href="{% url "Log"%}" class="tab-link"><i class="fas fa-sign-out-alt"></i>Logout</a>
+    </div>
+    <div class="content">
+        {% load static %}
+        <div id="profile" class="tab-content active">
+            <div class="profile-info">
+                <img src="{{mspro.profile.url}}" class="img-circle" width="200px">
+                <h2>{{mspro.full_name}}</h2>
+                <p>House Owner</p>
+                <div class="details">
+                    <h3>Contact Information</h3>
+                    <p>Email: {{mspro.email_address}}</p>
+                    <p>Phone:{{mspro.phone_number}}</p>
+                    <h3>Address:{{mspro.street_address}}</h3>
+                    <h3>Property Details</h3>
+                    <p>Number of Properties: 3</p>
+                    <p>Total Value: $1,200,000</p>
+                    <h3>About Me</h3>
+                    <p>Sandeep Kumar has been a property owner and manager for over 15 years. He is dedicated to maintaining high standards and providing excellent living conditions for all tenants. In his free time, John enjoys hiking, reading, and spending time with his family.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <p>&copy; 2024 John Doe Properties. All rights reserved.</p>
+        <p>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+        </p>
+    </div>
+</body>
+</html> {% endcomment %}
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
-    {% comment %} <link rel="stylesheet" href="styles.css"> {% endcomment %}
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<!-- Bootstrap JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+        }
+
+        .dashboard {
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(to bottom, #FF6600, #2c3e50);
+            color: white;
+            padding: 20px;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+            transition: width 0.3s;
+        }
+
+        .sidebar:hover {
+            width: 280px;
+        }
+
+        .logo h1 {
+            font-size: 1.8em;
+            margin: 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ffae00;
+            color: white;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            margin: 15px 0;
+        }
+
+        nav ul li a {
+            color: #ecf0f1;
+            text-decoration: none;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        nav ul li a i {
+            margin-right: 10px;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            background-color: #3498db;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .profile-info img {
+            border-radius: 50%;
+        }
+
+        .profile-info h2 {
+            margin: 10px 0;
+            color: #2c3e50;
+        }
+
+        .details h3 {
+            margin-top: 10px;
+            color: #2c3e50;
+        }
+
+        footer {
+            background-color: #FFDAB9;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 1px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .footer-section {
+            margin: 10px;
+            flex: 1;
+        }
+
+        .footer-section h3 {
+            margin-top: 0;
+            color: green;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            margin: 5px 0;
+            color: black;
+            text-decoration: none;
+        }
+
+        .footer-section a:hover {
+            background-color: #555;
+            color: #ffc107;
+        }
+
+        .footer-bottom {
+            background-color: #222;
+            padding: 10px;
+            border-top: 1px solid green;
+        }
+
+        .footer-bottom p {
+            margin: 0;
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .profile-info img {
+            border-radius: 50%;
+            width: 150px; /* Adjusted for better proportion */
+            height: 150px; /* Adjusted for better proportion */
+            border: 4px solid #2c3e50;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }        
+    </style>
 </head>
 <body>
-    <header>
-        <nav>
+    <div class="dashboard">
+        <div class="sidebar">
             <div class="logo">
-            <img src="{% static 'images/air_logo.png' %}" alt="Wheels on Meals Logo">
+                <h1>HOTEL DASHBOARD</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'Prof' %}" class="tab-link"><i class="fas fa-user"></i>Profile</a></li>
+                    <li><a href="{% url 'Add' %}" class="tab-link"><i class="fas fa-plus"></i>Add Items</a></li>
+                    <li><a href="{% url 'Order' %}" class="tab-link"><i class="fas fa-calendar-check"></i>Order Status</a></li>
+                    <li><a href="{% url 'Hotel' %}" class="tab-link"><i class="fas fa-info-circle"></i>Food Details</a></li>
+                    <li><a href="{% url 'Log' %}" class="tab-link"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
+                </ul>
+            </nav>
         </div>
-        <ul>
-            <li><a href="{% url "home"%}"><b>Home</b></a></li>
-            <li class="dropdown">
-                <a href="javascript:void(0)" class="dropbtn"><b>Login</b></a>
-                <div class="dropdown-content">
-                    <a href="{% url "admin_login" %}"><b>Admin Login</b></a>
-                    <a href="{% url "User_login" %}"><b>User Login</b></a>
-                    <a href="{% url "house_owner" %}"><b>Hotel Login</b></a>
+        <div class="content">
+            {% load static %}
+            <div id="profile" class="tab-content active">
+                <div class="profile-info">
+                    <img src="{{ mspro.profile.url }}" class="img-circle" width="200px">
+                    <h2>{{ mspro.full_name }}</h2>
+                    <p>hotel owner</p>
+                    <div class="details">
+                        <h3>Contact Information</h3>
+                        <p>Email: {{ mspro.email_address }}</p>
+                        <p>Phone: {{ mspro.phone_number }}</p>
+                        <h3>Address: {{ mspro.street_address }}</h3>
+                        <h3>Property Details</h3>
+                        <p>Number of Properties: 568</p>
+                        <p>Total Price: ₹18,2,950</p>
+                        <h3>About Me</h3>
+                        <p>Vinod Kumar has been a dedicated food enthusiast and culinary expert for over 15 years. He is committed to delivering high-quality dining experiences and ensuring the best service for all customers. In his free time, Vinod enjoys exploring new cuisines, experimenting with recipes, and spending time with his family.</p>
+                    </div>
                 </div>
-            </li>
-            <li><a href="{% url "user_register"%}"><b>Registration</b></a></li>
-            <li><a href="{% url 'about' %}">About</a></li>
-            <li><a href="{% url 'contact' %}">Contact</a></li>
-        </ul>
-    </nav>
-    </header>
-    <div class="container">
-        <h2>User Profile</h2>
-        <p>Welcome to your profile page. Here you can view and update your information.</p>
-
-        <div class="profile-info">
-            <h3>Contact Information</h3>
-            <p><strong>Name:</strong> vinod kumar</p>
-            <p><strong>Email:</strong> vinodkr8833@gmail.com</p>
-            <p><strong>Phone:</strong> +91 7606945133</p>
-        </div>
-
-        <div class="update-form">
-            <h3>Update Profile</h3>
-            <form action="/update_profile" method="post">
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" value="vinod kumar" required>
-
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" value=" vinodkr8833@gmail.com" required>
-
-                <label for="phone">Phone</label>
-                <input type="tel" id="phone" name="phone" value="+91 7606945133" required>
-
-                <button type="submit">Update</button>
-            </form>
+            </div>
         </div>
     </div>
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section about">
-                <h3>About Us</h3>
-                <p>We are passionate about food and aim to provide the best dining experience. From restaurant recommendations to recipes, we've got it all.</p>
-            </div>            
-            <div class="footer-section contact">
-                <h3>Contact Us</h3>
-                <p><strong>Email:</strong> <a href="mailto:support@wheelonmeals.com">support@wheelonmeals.com</a></p>
-                <p><strong>Phone:</strong> +91 1234567890 </p>
-                <p><strong>Address:</strong> Saibaba Colony, Coimbatore, Tamil Nadu</p>
-            </div>
-            <div class="footer-section social">
-                <h3>Follow Us</h3>
-                <p><b>𝕙𝕖𝕒𝕣𝕥𝕝𝕖𝕤𝕤_𝕜𝕚𝕟𝕘 ♕</b></p>
-                <a href="https://facebook.com/foodapp" target="_blank" class="social-icon">Facebook</a>
-                <a href="https://twitter.com/foodapp" target="_blank" class="social-icon">Twitter</a>
-                <a href="https://instagram.com/foodapp" target="_blank" class="social-icon">Instagram</a>
-                <a href="https://linkedin.com/company/foodapp" target="_blank" class="social-icon">LinkedIn</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 Wheels on Meals. All rights reserved.</p>
-        </div>
-    </footer>
-    <script src="scripts.js"></script>
 </body>
 </html>

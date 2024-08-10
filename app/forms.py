@@ -1,6 +1,17 @@
 # app/forms.py
 from django import forms
 
+from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
+
+class CustomPasswordResetForm(PasswordResetForm):
+    email = forms.EmailField(label="Email", max_length=254, widget=forms.EmailInput(attrs={'class': 'form-control'}))
+
+class CustomSetPasswordForm(SetPasswordForm):
+    new_password1 = forms.CharField(label="New Password", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    new_password2 = forms.CharField(label="Confirm New Password", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+
+
+
 class RegistrationForm(forms.Form):
     username = forms.CharField(label='Username', max_length=100, required=True)
     email = forms.EmailField(label='Email', required=True)
@@ -24,3 +35,22 @@ class RegistrationForm(forms.Form):
         ('Coimbatore', 'Coimbatore'), ('Bengaluru', 'Bengaluru'), ('Mumbai', 'Mumbai'), 
         ('Jaipur', 'Jaipur'), ('Lucknow', 'Lucknow'), ('Hyderabad', 'Hyderabad')
     ], required=True)
+
+
+
+# Email configuration
+class ContactForm(forms.Form):
+    name = forms.CharField(max_length=100, required=True, label='Name')
+    email = forms.EmailField(required=True, label='Email')
+    message = forms.CharField(widget=forms.Textarea, required=True, label='Message')
+    
+    
+
+
+
+
+    
+    
+    
+    
+    

@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,38 +7,107 @@
     <title>{% block title %}Contact Us{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'styles.css' %}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<!-- Bootstrap JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #f5af19, #f12711, #f5af19);
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        
+        .container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+            border-radius: 8px;
+        }
+        
+        .container h1 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 2.5em;
+        }
+        
+        .container p {
+            font-size: 1.2em;
+            color: #666;
+        }
+        
+        .contact-form {
+            background-color: #fac392;
+            border: 1px solid #f5ae29;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .contact-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .contact-form button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        
+        .contact-form button:hover {
+            background-color: #ff4500;
+        }
+    </style>
 </head>
 <body>
     <header>
         <nav>
             <div class="logo">
-            <img src="{% static 'images/air_logo.png' %}" alt="Wheels on Meals Logo">
-        </div>
-        <ul>
-            <li><a href="{% url "home"%}"><b>Home</b></a></li>
-            <li class="dropdown">
-                <a href="javascript:void(0)" class="dropbtn"><b>Login</b></a>
-                <div class="dropdown-content">
-                    <a href="{% url "admin_login" %}"><b>Admin Login</b></a>
-                    <a href="{% url "User_login" %}"><b>User Login</b></a>
-                    <a href="{% url "house_owner" %}"><b>Hotel Login</b></a>
-                </div>
-            </li>
-            <li><a href="{% url "user_register"%}"><b>Registration</b></a></li>
-            <li><a href="{% url 'about' %}">About</a></li>
-            <li><a href="{% url 'contact' %}">Contact</a></li>
-        </ul>
-    </nav>
+                <img src="{% static 'images/air_logo.png' %}" alt="Wheels on Meals Logo">
+            </div>
+            <ul>
+                <li><a href="{% url 'home' %}"><b>Home</b></a></li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="dropbtn"><b>Login</b></a>
+                    <div class="dropdown-content">
+                        <a href="{% url 'admin_login' %}"><b>Admin Login</b></a>
+                        <a href="{% url 'User_login' %}"><b>User Login</b></a>
+                        <a href="{% url 'Hotel_login' %}"><b>Hotel Login</b></a>
+                    </div>
+                </li>
+                <li><a href="{% url 'user_register' %}"><b>Registration</b></a></li>
+                <li><a href="{% url 'about' %}"><b>About</b></a></li>
+                <li><a href="{% url 'contact' %}"><b>Contact</b></a></li>
+            </ul>
+        </nav>
     </header>
     <div class="container">
-        <h2>Contact Us</h2>
+        <h1>Contact Us</h1>
         <p>If you have any questions, feel free to reach out to us using the contact form below or through our contact details.</p>
         <div class="contact-form">
-            <form action="submit_form.php" method="post">
+            <form action="{% url 'submit_contact' %}" method="post">
+                {% csrf_token %}
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required>
 
@@ -52,14 +120,13 @@
                 <button type="submit">Send Message</button>
             </form>
         </div>
-            
     </div>
     <footer>
         <div class="footer-content">
             <div class="footer-section about">
                 <h3>About Us</h3>
                 <p>We are passionate about food and aim to provide the best dining experience. From restaurant recommendations to recipes, we've got it all.</p>
-            </div>            
+            </div>
             <div class="footer-section contact">
                 <h3>Contact Us</h3>
                 <p><strong>Email:</strong> <a href="mailto:support@wheelonmeals.com">support@wheelonmeals.com</a></p>
@@ -73,13 +140,12 @@
                 <a href="https://twitter.com/foodapp" target="_blank" class="social-icon">Twitter</a>
                 <a href="https://instagram.com/foodapp" target="_blank" class="social-icon">Instagram</a>
                 <a href="https://linkedin.com/company/foodapp" target="_blank" class="social-icon">LinkedIn</a>
-
             </div>
         </div>
         <div class="footer-bottom">
             <p>&copy; 2024 Wheels on Meals. All rights reserved.</p>
         </div>
     </footer>
-    <script src="scripts.js"></script>
+    <script src="{% static 'scripts.js' %}"></script>
 </body>
 </html>

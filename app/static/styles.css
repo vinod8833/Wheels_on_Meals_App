@@ -6,14 +6,14 @@
 }
 
 html, body {
-    height: 50%;
+    height: 100%;
 }
 
 body {
     display: flex;
     flex-direction: column;
     font-family: Arial, sans-serif;
-    background-color: #a9b1b9;
+    background-color: #a2c3e5;
     color: #333;
 }
 
@@ -28,11 +28,28 @@ a:hover {
 }
 
 /* Navigation Bar */
-nav {
-    background-color: #FFDAB9; 
+    /* background-color: #fac392;  */
+
+/* nav {
+    background-color: yellow; 
     color: green;
     padding: 10px 0;
+} */
+
+nav {
+    background: linear-gradient(to right, #00c6ff, #0072ff, #a2c2e8, #b0e4f4);
+    color: #ffffff; /* White text for contrast */
+    padding: 10px 0;
 }
+
+
+
+
+
+
+
+
+
 
 nav ul {
     list-style: none;
@@ -47,19 +64,19 @@ nav ul li {
 }
 
 nav ul li a {
-    color: green;
+    color: black;
     padding: 14px 20px;
     display: block;
 }
 
 nav ul li a:hover, .dropdown:hover .dropbtn {
-    background-color: #FDC483;
+    background-color: #eb8e23;
 }
 
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #f9f9f9;
+    background-color: #f5d0d0;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
@@ -72,7 +89,7 @@ nav ul li a:hover, .dropdown:hover .dropbtn {
 }
 
 .dropdown-content a:hover {
-    background-color: #ddd;
+    background-color: #76bdf7;
 }
 
 .dropdown:hover .dropdown-content {
@@ -109,7 +126,7 @@ main {
     padding: 20px;
     max-width: 1200px;
     margin: 20px auto;
-    background-color: rgb(241, 209, 209);
+    background-color: white;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     text-align: center;
 }
@@ -129,8 +146,8 @@ main {
 
 /* Contact Form */
 .contact-form {
-    background-color: #fff;
-    border: 1px solid #ddd;
+    background-color: #f3c4c4;
+    border: 1px solid #f5d0d0;
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 20px;
@@ -146,7 +163,7 @@ main {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #f1dddd;
     border-radius: 4px;
 }
 
@@ -160,9 +177,11 @@ main {
 }
 
 .contact-form button:hover {
-    background-color: #ff4500;
+    background-color: #ffffff; /* Background color on hover */
+    color: #ff8457; /* Text color on hover */
+    border-color: #ff8457; /* Border color on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect on hover */
 }
-
 /* Contact Info Styles */
 .contact-info {
     background-color: #fff;
@@ -177,7 +196,7 @@ main {
 
 /* Footer */
 footer {
-    background-color: #FFDAB9;
+    background-color: #00c6ff;
     color: white;
     padding: 20px 0;
     text-align: center;
@@ -201,7 +220,7 @@ footer {
 
 .footer-section h3 {
     margin-top: 0;
-    color: green;
+    color: orangered;
 }
 
 .footer-section p,
@@ -504,19 +523,5 @@ header img {
     margin: 0 auto; 
     float: left;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

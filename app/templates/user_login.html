@@ -13,9 +13,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
+
 <body>
     <style>
-        /* Container styling */
 .container {
     max-width: 400px;
     margin: 0 auto;
@@ -23,7 +23,7 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #f9f9f9;
+    background: linear-gradient(to right, #FF5733, #FFC300, #DAF7A6, #33FF57);
 }
 
 /* Heading styling */
@@ -81,6 +81,8 @@
     text-decoration: underline;
 }
 
+
+
     </style>
     <header>
         <nav>
@@ -94,18 +96,18 @@
                 <div class="dropdown-content">
                     <a href="{% url "admin_login" %}"><b>Admin Login</b></a>
                     <a href="{% url "User_login" %}"><b>User Login</b></a>
-                    <a href="{% url "house_owner" %}"><b>Hotel Login</b></a>
+                    <a href="{% url "Hotel_login" %}"><b>Hotel Login</b></a>
                 </div>
             </li>
-            <li><a href="{% url "user_register"%}"><b>Registration</b></a></li>
-            <li><a href="{% url 'about' %}">About</a></li>
-            <li><a href="{% url 'contact' %}">Contact</a></li>
+            <li><a href="{% url "user_register" %}"><b>Registration</b></a></li>
+            <li><a href="{% url 'about' %}"><b>About</b></a></li>
+        <li><a href="{% url 'contact' %}"><b>Contact</b></a></li>
         </ul>
     </nav>
     </header>
     <div class="container">
         <h2>User Login</h2>
-        <form id="user-login-form" method="POST" enctype="multipart/form-data">
+        <form id="user-login-form" method="POST">
             {% csrf_token %}
             <label for="username">Username</label>
             <input type="text" id="username" name="username" required><br><br>
@@ -113,7 +115,7 @@
             <input type="password" id="password" name="password" required><br><br>
             <button type="reset">Reset</button><br><br>
             <button type="submit">Login</button><br><br>
-            <a href="#" class="forgot-password">Forgot Password?</a>
+            <a href="{% url 'password_reset' %}" class="forgot-password">Forgot Password?</a>
         </form>
     </div>
     <footer>
@@ -141,8 +143,6 @@
             <p>&copy; 2024 Wheels on Meals. All rights reserved.</p>
         </div>
     </footer>
-   
-
 </body>
 </html>
 

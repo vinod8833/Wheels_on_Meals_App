@@ -3,50 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <title>Payment Details</title> -->
     <title>{% block title %}Payment Details{% endblock %}</title>
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.6.0/jspdf.umd.min.js"></script>
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #c8aaaa;
-            padding-top: 50px;
+            background-color: #fac9c9;
+            padding-top: 60px;
+            margin: 0;
+        }
+        header {
+            background-color: #d45929;
+            color: rgb(238, 164, 104);
+            padding: 10px 0;
+            text-align: center;
+        }
+        header h4 {
+            margin: 0;
         }
         .container {
-            background: #fff;
+            background: #9df3d9;
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
+            max-width: 900px;
             margin: auto;
-            position: relative;
         }
         h2 {
-            color: #d45929;
-            margin-bottom: 20px;
-            text-align: center;
+            color: #d45929; /* Heading color */
+            margin-bottom: 20px; /* Space below the heading */
+            text-align: center; /* Center-align the heading */
         }
-        .order-summary {
-            margin-bottom: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background-color: #fafafa;
+        
+        .order-summary, .payment-method, .card-details, .billing-address {
+            margin-bottom: 20px; /* Space below each section */
+            padding: 20px; /* Padding inside the sections */
+            border-radius: 8px; /* Rounded corners */
+            background-color: #fafafa; /* Light background color */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
         }
-        .order-summary h4 {
-            margin-bottom: 10px;
+        
+        .order-summary img {
+            max-width: 300px; /* Increased maximum width */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 8px; /* Rounded corners for image */
+            display: block; /* Ensure the image is a block element */
+            margin: 0 auto 15px; /* Center the image with margin below */
         }
-        .order-summary p {
-            margin: 5px 0;
+        
+        .order-summary p, .payment-method label {
+            margin: 10px 0;
         }
-        .payment-method {
-            margin-bottom: 20px;
+        .order-summary .quantity-controls {
+            display: flex;
+            align-items: center;
         }
-        .payment-method label {
+        .order-summary .quantity-controls button {
+            background: #d45929;
+            border: none;
+            color: #fff;
             font-size: 18px;
-            color: #333;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .order-summary input {
+            width: 60px;
+            text-align: center;
+            margin: 0 10px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
         }
         .payment-method .method {
             display: flex;
@@ -66,13 +99,6 @@
             margin-right: 15px;
             color: #d45929;
         }
-        .card-details, .billing-address {
-            margin-top: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background-color: #fafafa;
-        }
         .card-details input, .billing-address input {
             margin-bottom: 10px;
             padding: 10px;
@@ -83,6 +109,7 @@
         .btn-primary {
             background-color: #d45929;
             border-color: #d45929;
+            font-size: 16px;
         }
         .btn-primary:hover {
             background-color: #b34d23;
@@ -90,11 +117,37 @@
         }
         .footer {
             text-align: center;
+            padding: 20px;
+            background: #333;
+            color: #fff;
             margin-top: 30px;
-            color: #777;
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: auto;
+        }
+        .footer-section {
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+        .footer-section h3 {
+            color: #d45929;
+        }
+        .social-icon {
+            margin: 0 5px;
+            color: #ebaf61;
+            text-decoration: none;
+        }
+        .footer-bottom {
+            border-top: 1px solid #444;
+            padding-top: 10px;
+            margin-top: 20px;
         }
         .loading-overlay {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -106,8 +159,8 @@
             z-index: 10;
         }
         .loader {
-            border: 4px solid rgba(0, 0, 0, 0.1); /* Light grey */
-            border-left: 4px solid #d45929; /* Orange */
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #d45929;
             border-radius: 50%;
             width: 50px;
             height: 50px;
@@ -130,8 +183,18 @@
             color: #dc3545;
         }
 
+        .total-bill-label {
+            font-size: 30px;
+            font-weight: bold;
+            color: #d45929; /* Adjust color if needed */
+        }
+        .total-bill-price {
+            font-size: 36px; /* Adjust size as needed */
+            font-weight: bold;
+            color: #0a5e8f; /* Adjust color if needed */
+        }
         footer {
-            background-color: #FFDAB9;
+            background-color: #00c6ff;
             color: white;
             padding: 20px 0;
             text-align: center;
@@ -155,7 +218,7 @@
         
         .footer-section h3 {
             margin-top: 0;
-            color: green;
+            color: orangered;
         }
         
         .footer-section p,
@@ -191,27 +254,40 @@
         .social-icon:hover {
             color: #ffc107;
         }
+
     </style>
 </head>
 <body>
-<header>
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <h4>You will be redirected to the <a href="{% url 'home' %}">Wheels on Meals</a> home page shortly.</h4>
+    <header>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <h4>You will be redirected to the <a href="{% url 'home' %}">Wheels on Meals</a> home page shortly.</h4>
+                </div>
             </div>
-        </div>
-    </nav>
-</header>
+        </nav>
+    </header>
 
 <div class="container"><br><br>
     <h2>Payment Details</h2>
 
     <!-- Order Summary -->
-    <div class="order-summary">
+    <div class="order-summary" id="order-summary">
         <h4>Order Summary</h4>
-        <p><strong>Item:</strong> <span id="item-name">Loading...</span></p>
-        <p><strong>Price:</strong> ₹<span id="item-price">0</span></p>
+        <img id="item-image" src="" alt="Item Image">
+    <p><strong>Item:</strong> <span id="item-name">Loading...</span></p>
+    <p><strong>Price:</strong> ₹<span id="item-price">0</span></p>
+    <p><strong>Time:</strong> <span id="item-time">Loading...</span></p>
+    <p><strong>Date:</strong> <span id="item-date">Loading...</span></p>
+    <p><strong>Quantity:</strong>
+            <div class="quantity-controls">
+                <button id="decrease-quantity">-</button>
+                <input id="item-quantity" type="number" min="1" value="1">
+                <button id="increase-quantity">+</button>
+            </div>
+        </p>
+        <p><strong class="total-bill-label">Total Bill:</strong> <span id="total-bill" class="total-bill-price">₹0</span></p>
+        <button id="add-more-items" class="btn btn-primary">Add More Items</button>
     </div>
 
     <!-- Payment Methods -->
@@ -242,6 +318,16 @@
             <i class="fas fa-money-bill-wave"></i>
             <span>Cash on Delivery</span>
         </div>
+        <div class="method">
+            <input type="radio" name="paymentMethod" value="mobileWallet">
+            <i class="fas fa-mobile-alt"></i>
+            <span>Mobile Wallet</span>
+        </div>
+        <div class="method">
+            <input type="radio" name="paymentMethod" value="upi">
+            <i class="fas fa-credit-card"></i>
+            <span>UPI</span>
+        </div>
     </div>
 
     <div id="card-details" class="card-details">
@@ -257,17 +343,14 @@
         <input id="street-address" type="text" placeholder="Street Address" required>
         <input id="city" type="text" placeholder="City" required>
         <input id="state" type="text" placeholder="State" required>
-        <input id="zip-code" type="text" placeholder="ZIP Code" required>
+        <input id="zip-code" type="text" placeholder="Zip Code" required>
     </div>
 
-    <button id="complete-payment" type="button" class="btn btn-primary btn-lg btn-block">Complete Payment</button>
-    
-    <div id="loading-overlay" class="loading-overlay">
-        <div class="loader"></div>
-    </div>
+    <button id="complete-payment" class="btn btn-primary">Complete Payment</button>
 
+    <!-- Success and Error Messages -->
     <div id="success-message" class="success-message">
-        Payment Successful!
+        Payment Successful! Thank you for your purchase.
     </div>
     
     <div id="thank-you-message" class="thank-you-message">
@@ -277,9 +360,11 @@
     <div id="error-message" class="error-message">
         Please fill out all required fields correctly.
     </div>
-    
 </div>
 
+<div class="loading-overlay" id="loading-overlay">
+    <div class="loader"></div>
+</div>
 <footer>
     <div class="footer-content">
         <div class="footer-section about">
@@ -305,63 +390,121 @@
         <p>&copy; 2024 Wheels on Meals. All rights reserved.</p>
     </div>
 </footer>
-
 <script>
-    document.getElementById("complete-payment").addEventListener("click", function() {
-        var paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
-
-        var cardholderName = document.getElementById("cardholder-name").value;
-        var cardNumber = document.getElementById("card-number").value;
-        var expiryDate = document.getElementById("expiry-date").value;
-        var cvv = document.getElementById("cvv").value;
-
-        var streetAddress = document.getElementById("street-address").value;
-        var city = document.getElementById("city").value;
-        var state = document.getElementById("state").value;
-        var zipCode = document.getElementById("zip-code").value;
-
-        // Basic validation
-        var isValid = true;
-
-        // Clear previous messages
-        document.getElementById("error-message").style.display = "none";
-        document.getElementById("thank-you-message").style.display = "none";
-        document.getElementById("success-message").style.display = "none";
-        document.getElementById("loading-overlay").style.display = "flex";
-
-        if (paymentMethod === "creditCard" || paymentMethod === "debitCard" || paymentMethod === "paypal" || paymentMethod === "netBanking") {
-            if (!cardholderName || !cardNumber || !expiryDate || !cvv || !/^\d+$/.test(cardNumber) || !/^\d+$/.test(cvv) || !/^\d{2}\/\d{2}$/.test(expiryDate)) {
-                isValid = false;
+    document.addEventListener('DOMContentLoaded', function() {
+        // Function to get URL query parameters
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+    
+        // Get URL parameters
+        const imageUrl = getQueryParam('image_url');
+        const itemName = getQueryParam('item');
+        const itemPrice = getQueryParam('price');
+    
+        // Get the current date and time
+        const now = new Date();
+        const date = now.toLocaleDateString();
+        const time = now.toLocaleTimeString();
+    
+        // Update the page with the URL parameters and current date/time
+        if (imageUrl) {
+            document.getElementById('item-image').src = imageUrl;
+        } else {
+            document.getElementById('item-image').alt = 'Image not available';
+        }
+    
+        if (itemName) {
+            document.getElementById('item-name').innerText = decodeURIComponent(itemName);
+        } else {
+            document.getElementById('item-name').innerText = ' Loading...';
+        }
+    
+        if (itemPrice) {
+            document.getElementById('item-price').innerText = ` ${itemPrice}`;
+        } else {
+            document.getElementById('item-price').innerText = '0';
+        }
+    
+        // Update time and date
+        document.getElementById('item-time').innerText = ` ${time}`;
+        document.getElementById('item-date').innerText = ` ${date}`;
+    
+        // Function to update the total bill
+        function updateTotalBill() {
+            const quantity = parseInt(document.getElementById('item-quantity').value);
+            const totalPrice = itemPrice ? (itemPrice * quantity) : 0;
+            document.getElementById('total-bill').innerText = ` ₹${totalPrice}`;
+        }
+    
+        // Quantity change handlers
+        document.getElementById('increase-quantity').addEventListener('click', function() {
+            const quantityInput = document.getElementById('item-quantity');
+            quantityInput.value = parseInt(quantityInput.value) + 1;
+            updateTotalBill();
+        });
+    
+        document.getElementById('decrease-quantity').addEventListener('click', function() {
+            const quantityInput = document.getElementById('item-quantity');
+            if (parseInt(quantityInput.value) > 1) {
+                quantityInput.value = parseInt(quantityInput.value) - 1;
+                updateTotalBill();
             }
-        }
+        });
+    
+    
+        // Add more items handler
+        document.getElementById('add-more-items').addEventListener('click', function() {
+            window.location.href = '/';  // Redirect to another page if no menu view exists
+        });
+    });
+    
+    
 
-        if (!streetAddress || !city || !state || !zipCode || !/^\d+$/.test(zipCode)) {
-            isValid = false;
-        }
-
-        if (!isValid) {
-            document.getElementById("loading-overlay").style.display = "none";
-            document.getElementById("error-message").style.display = "block";
+    
+    document.getElementById('complete-payment').addEventListener('click', function(event) {
+        // Get all input elements
+        var cardholderName = document.getElementById('cardholder-name').value;
+        var cardNumber = document.getElementById('card-number').value;
+        var expiryDate = document.getElementById('expiry-date').value;
+        var cvv = document.getElementById('cvv').value;
+        var streetAddress = document.getElementById('street-address').value;
+        var city = document.getElementById('city').value;
+        var state = document.getElementById('state').value;
+        var zipCode = document.getElementById('zip-code').value;
+    
+        // Validate card details
+        var cardNumberPattern = /^\d{16}$/;
+        var expiryDatePattern = /^\d{2}\/\d{2}$/;
+        var cvvPattern = /^\d{3}$/;
+        var zipCodePattern = /^\d{5}$/;
+    
+        if (!cardNumberPattern.test(cardNumber) || !expiryDatePattern.test(expiryDate) || !cvvPattern.test(cvv)) {
+            alert('Please enter valid card details.');
+            event.preventDefault();
             return;
         }
+    
+        // Validate delivery address
+        if (!zipCodePattern.test(zipCode)) {
+            alert('Please enter a valid Zip Code.');
+            event.preventDefault();
+            return;
+        }
+    
+        document.getElementById('success-message').style.display = 'block';
 
-        setTimeout(function() {
-            document.getElementById("loading-overlay").style.display = "none";
-            
-            if (paymentMethod === "cashOnDelivery") {
-                // Show thank you message for Cash on Delivery
-                document.getElementById("thank-you-message").style.display = "block";
-            } else {
-                // Show success message for other payment methods
-                document.getElementById("success-message").style.display = "block";
-            }
 
-            // Redirect to home page after 3 seconds
-            setTimeout(function() {
-                window.location.href="{% url "home"%}";
-            }, 3000);
-        }, 3000); // Simulate 3 seconds delay
+        
     });
+    
+
+
+
+
 </script>
+
+
 </body>
 </html>

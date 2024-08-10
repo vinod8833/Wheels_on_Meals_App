@@ -22,10 +22,10 @@
     max-width: 500px;
     margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ddd;
+    border: 2px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #f9f9f9;
+    background: linear-gradient(to right, #ffeb3b, #cddc39, #4caf50);
 }
 
 /* Heading styling */
@@ -38,7 +38,7 @@
 /* Paragraph styling */
 .container p {
     text-align: center;
-    color: #666;
+    color: Black;
     margin-bottom: 20px;
 }
 
@@ -57,7 +57,7 @@
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    color: #555;
+    color: #2D2D2B;
 }
 
 .form-group input {
@@ -82,7 +82,7 @@
 }
 
 #hotel-login-form button:hover {
-    background-color: #0056b3;
+    background-color: #004BA0;
 }
 
 /* Link styling */
@@ -98,6 +98,51 @@
     text-decoration: underline;
 }
 
+/* General Button Styles */
+button {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+}
+
+/* Reset Button */
+button[type="reset"] {
+    background-color: #2196f3; /* Blue */
+    color: white;
+}
+
+button[type="reset"]:hover {
+    background-color: #1976d2; /* Darker blue */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button[type="reset"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.5); /* Blue outline */
+}
+
+/* Submit Button */
+button[type="submit"] {
+    background-color: #F81A7A; /* Darker blue */
+    color: white;
+}
+
+button[type="submit"]:hover {
+    background-color: #1565c0; /* Even darker blue */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button[type="submit"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.5); /* Light blue outline */
+}
+
+
     </style>
     <header>
         <nav>
@@ -111,12 +156,12 @@
                 <div class="dropdown-content">
                     <a href="{% url "admin_login" %}"><b>Admin Login</b></a>
                     <a href="{% url "User_login" %}"><b>User Login</b></a>
-                    <a href="{% url "house_owner" %}"><b>Hotel Login</b></a>
+                    <a href="{% url "Hotel_login" %}"><b>Hotel Login</b></a>
                 </div>
             </li>
             <li><a href="{% url "user_register"%}"><b>Registration</b></a></li>
-            <li><a href="{% url 'about' %}">About</a></li>
-            <li><a href="{% url 'contact' %}">Contact</a></li>
+            <li><a href="{% url 'about' %}"><b>About</b></a></li>
+        <li><a href="{% url 'contact' %}"><b>Contact</b></a></li>
         </ul>
     </nav>
     </header>
@@ -124,7 +169,7 @@
         <h2>Hotel Login</h2>
         <p>Welcome to the Hotel Login page. Please enter your credentials to access your hotel management account.</p>
         
-        <form id="hotel-login-form" class="login-form" method="POST" enctype="multipart/form-data">
+        <form method="POST">
             {% csrf_token %}
             <div class="form-group"><br>
                 <label for="username">Username:</label>
@@ -136,9 +181,12 @@
             </div><br>
             <div>         
                 <a href="#" class="forgot-password">Forgot Password?</a>
-            </div>
-            <button type="reset">Reset</button><br>
+            </div><br>
+            <button type="reset">Reset</button><br><br>
             <button type="submit">Login</button>
+            {% if alert %}
+                <div class="alert">{{ msg }}</div>
+            {% endif %}
         </form>
     </div>
     <footer>

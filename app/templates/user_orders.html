@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}User Dashboard{% endblock %}</title>
-
+    <title>Orders</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    {% comment %} <link rel="stylesheet" href="{% static 'styles.css' %}"> {% endcomment %}
     <style>
         /* General Styles */
         body {
@@ -133,58 +133,8 @@
             border-radius: 5px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
         }
-        footer {
-            background-color: #FFDAB9;
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-            margin-top: auto;  /* Ensure footer stays at the bottom */
-        }
-        
-        .footer-content {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 1px;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        .footer-section {
-            margin: 10px;
-            flex: 1;
-        }
-        
-        .footer-section h3 {
-            margin-top: 0;
-            color: green;
-        }
-        
-        .footer-section p,
-        .footer-section a {
-            margin: 5px 0;
-            color: black;
-            text-decoration: none;
-        }
-        
-        .footer-section a:hover {
-            background-color: #555;
-            color: #ffc107;
-        }
-        
-        .footer-bottom {
-            background-color: #222;
-            padding: 10px ;
-            border-top: 1px solid green;
-        }
-        
-        .footer-bottom p {
-            margin: 0;
-        }
     </style>
 </head>
-{% load static %}
 <body>
     <div class="dashboard">
         <div class="sidebar">
@@ -201,37 +151,30 @@
             </nav>
         </div>
         <div class="main-content">
-            <h1>Welcome to Your Dashboard</h1>
-            <p>This is your personal dashboard where you can manage your profile, view your orders, read about our return policy, and log out.</p>
-
-            <!-- Dashboard Overview -->
-                       
+            <h1>Orders</h1>
+            <div class="order-item">
+                <div class="order-item-content">
+                    <img src="dish1.jpg" alt="Dish 1">
+                    <div>
+                        <h4>Chicken Biryani</h4>
+                        <p>Order ID: 123456</p>
+                        <p>Status: Delivered</p>
+                        <p>Date: July 25, 2024</p>
+                    </div>
+                </div>
+            </div>
+            <div class="order-item">
+                <div class="order-item-content">
+                    <img src="dish2.jpg" alt="Dish 2">
+                    <div>
+                        <h4>Chocolate Brownie</h4>
+                        <p>Order ID: 789101</p>
+                        <p>Status: In Transit</p>
+                        <p>Date: July 26, 2024</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section about">
-                <h3>About Us</h3>
-                <p>We are passionate about food and aim to provide the best dining experience. From restaurant recommendations to recipes, we've got it all.</p>
-            </div>            
-            <div class="footer-section contact">
-                <h3>Contact Us</h3>
-                <p><strong>Email:</strong> <a href="mailto:support@wheelonmeals.com">support@wheelonmeals.com</a></p>
-                <p><strong>Phone:</strong> +91 1234567890 </p>
-                <p><strong>Address:</strong> Saibaba Colony, Coimbatore, Tamil Nadu</p>
-            </div>
-            <div class="footer-section social">
-                <h3>Follow Us</h3>
-                <p><b>𝕙𝕖𝕒𝕣𝕥𝕝𝕖𝕤𝕤_𝕜𝕚𝕟𝕘 ♕</b></p>
-                <a href="https://facebook.com/foodapp" target="_blank" class="social-icon">Facebook</a>
-                <a href="https://twitter.com/foodapp" target="_blank" class="social-icon">Twitter</a>
-                <a href="https://instagram.com/foodapp" target="_blank" class="social-icon">Instagram</a>
-                <a href="https://linkedin.com/company/foodapp" target="_blank" class="social-icon">LinkedIn</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 Wheels on Meals. All rights reserved.</p>
-        </div>
-    </footer>
 </body>
 </html>
